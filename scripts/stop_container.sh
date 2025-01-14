@@ -1,5 +1,12 @@
-#!/bin/bash
-set -e
+version: 0.0
+os: linux
 
-# Stop the running container (if any)
-echo "Hi"
+hooks:
+  ApplicationStop:
+    - location: scripts/stop_container.sh
+      timeout: 300
+      runas: root
+  AfterInstall:
+    - location: scripts/start_container.sh
+      timeout: 300
+      runas: root
