@@ -1,12 +1,12 @@
-version: 0.0
-os: linux
+#!/bin/bash
+set -e
 
-hooks:
-  ApplicationStop:
-    - location: scripts/stop_container.sh
-      timeout: 300
-      runas: root
-  AfterInstall:
-    - location: scripts/start_container.sh
-      timeout: 300
-      runas: root
+# Stop the running container (if any)
+containerid=$(docker ps -q) # Get the container ID of running containers
+
+if [ -n "$containerid" ]; then
+  echo "Stopping container: $containerid"
+  docker rm -f $containerid
+else
+  echo "No running containers to stop."
+fi
